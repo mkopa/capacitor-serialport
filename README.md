@@ -1,25 +1,55 @@
-# @mkopa/capacitor-serialport
+# 📦 @mkopa/capacitor-serialport
 
-Capacitor plugin for Serial Port
+![workflow](https://github.com/mkopa/capacitor-serialport/actions/workflows/test.yml/badge.svg)
 
-## Install
+### ❌ <span style="color:red;"> This package is still under development and NOT ready for production use.</span>
+
+[Capacitor](https://capacitorjs.com) plugin for USB Serial Port
+
+This is a driver library for communication with Arduinos and other USB serial hardware.
+
+---
+
+## ✨ Supported Platforms
+
+- Android [USB Host Mode (OTG)](http://developer.android.com/guide/topics/connectivity/usb/host.html)
+- Browsers - [Supported list](https://caniuse.com/?search=navigator.serial)
+- Linux, macOS and Windows [Electron cross-platform desktop applications](https://capacitor-community.github.io/electron)
+
+## ✨ Compatible Devices
+
+&nbsp;✅ **USB to serial converter chips:**
+
+- FTDI FT232R, FT232H, FT2232H, FT4232H, FT230X, FT231X, FT234XD
+- Prolific PL2303
+- Silabs CP2102, CP210*
+- Qinheng CH340, CH341A, CH9102
+
+&nbsp;✅ **Devices implementing the CDC/ACM protocol like:**
+
+- STM32
+- Arduino using ATmega32U4
+- Digispark using V-USB software USB
+- BBC micro:bit using ARM mbed DAPLink firmware...
+
+&nbsp;✅ **Some device specific drivers:**
+
+- GsmModem devices, e.g. for Unisoc based Fibocom GSM modems
+- Chrome OS CCD (Closed Case Debugging)
+
+## 💿 Install
 
 ```bash
 npm install @mkopa/capacitor-serialport
 npx cap sync
 ```
 
-## API
+## 📜 API
 
 <docgen-index>
 
 * [`getPorts()`](#getports)
-* [`openPort(...)`](#openport)
-* [`closePort(...)`](#closeport)
-* [`addListener('onData', ...)`](#addlistenerondata-)
-* [`addListener('onClose', ...)`](#addlisteneronclose-)
-* [`checkPermissions()`](#checkpermissions)
-* [`requestPermissions()`](#requestpermissions)
+* [`requestPort(...)`](#requestport)
 * [Interfaces](#interfaces)
 * [Type Aliases](#type-aliases)
 
@@ -31,102 +61,30 @@ npx cap sync
 ### getPorts()
 
 ```typescript
-getPorts() => Promise<GetPortsResult>
+getPorts() => Promise<SerialDeviceInfo[]>
 ```
 
-**Returns:** <code>Promise&lt;<a href="#getportsresult">GetPortsResult</a>&gt;</code>
+**Returns:** <code>Promise&lt;SerialDeviceInfo[]&gt;</code>
 
 --------------------
 
 
-### openPort(...)
+### requestPort(...)
 
 ```typescript
-openPort(options: OpenPortOptions) => Promise<void>
+requestPort(portId: number) => Promise<UsbSerialPort>
 ```
 
-| Param         | Type                                                        |
-| ------------- | ----------------------------------------------------------- |
-| **`options`** | <code><a href="#openportoptions">OpenPortOptions</a></code> |
+| Param        | Type                |
+| ------------ | ------------------- |
+| **`portId`** | <code>number</code> |
 
---------------------
-
-
-### closePort(...)
-
-```typescript
-closePort(options: ClosePortOptions) => Promise<void>
-```
-
-| Param         | Type                                                          |
-| ------------- | ------------------------------------------------------------- |
-| **`options`** | <code><a href="#closeportoptions">ClosePortOptions</a></code> |
-
---------------------
-
-
-### addListener('onData', ...)
-
-```typescript
-addListener(eventName: 'onData', listenerFunc: (result: OnPortDataResult) => void) => PluginListenerHandle
-```
-
-| Param              | Type                                                                               |
-| ------------------ | ---------------------------------------------------------------------------------- |
-| **`eventName`**    | <code>'onData'</code>                                                              |
-| **`listenerFunc`** | <code>(result: <a href="#onportdataresult">OnPortDataResult</a>) =&gt; void</code> |
-
-**Returns:** <code><a href="#pluginlistenerhandle">PluginListenerHandle</a></code>
-
---------------------
-
-
-### addListener('onClose', ...)
-
-```typescript
-addListener(eventName: 'onClose', listenerFunc: (result: OnPortCloseResult) => void) => PluginListenerHandle
-```
-
-| Param              | Type                                                                                 |
-| ------------------ | ------------------------------------------------------------------------------------ |
-| **`eventName`**    | <code>'onClose'</code>                                                               |
-| **`listenerFunc`** | <code>(result: <a href="#onportcloseresult">OnPortCloseResult</a>) =&gt; void</code> |
-
-**Returns:** <code><a href="#pluginlistenerhandle">PluginListenerHandle</a></code>
-
---------------------
-
-
-### checkPermissions()
-
-```typescript
-checkPermissions() => Promise<PermissionStatus>
-```
-
-**Returns:** <code>Promise&lt;<a href="#permissionstatus">PermissionStatus</a>&gt;</code>
-
---------------------
-
-
-### requestPermissions()
-
-```typescript
-requestPermissions() => Promise<PermissionStatus>
-```
-
-**Returns:** <code>Promise&lt;<a href="#permissionstatus">PermissionStatus</a>&gt;</code>
+**Returns:** <code>Promise&lt;<a href="#usbserialport">UsbSerialPort</a>&gt;</code>
 
 --------------------
 
 
 ### Interfaces
-
-
-#### GetPortsResult
-
-| Prop          | Type                            |
-| ------------- | ------------------------------- |
-| **`devices`** | <code>SerialDeviceInfo[]</code> |
 
 
 #### SerialDeviceInfo
@@ -139,48 +97,13 @@ requestPermissions() => Promise<PermissionStatus>
 | **`productId`**  | <code>number</code>                               |
 
 
-#### OpenPortOptions
+#### UsbSerialPort
 
-| Prop           | Type                |
-| -------------- | ------------------- |
-| **`portId`**   | <code>number</code> |
-| **`baudRate`** | <code>number</code> |
-
-
-#### ClosePortOptions
-
-| Prop         | Type                |
-| ------------ | ------------------- |
-| **`portId`** | <code>number</code> |
-
-
-#### PluginListenerHandle
-
-| Prop         | Type                                      |
-| ------------ | ----------------------------------------- |
-| **`remove`** | <code>() =&gt; Promise&lt;void&gt;</code> |
-
-
-#### OnPortDataResult
-
-| Prop         | Type                |
-| ------------ | ------------------- |
-| **`portId`** | <code>number</code> |
-| **`data`**   | <code>string</code> |
-
-
-#### OnPortCloseResult
-
-| Prop         | Type                |
-| ------------ | ------------------- |
-| **`portId`** | <code>number</code> |
-
-
-#### PermissionStatus
-
-| Prop             | Type                                                        |
-| ---------------- | ----------------------------------------------------------- |
-| **`MANAGE_USB`** | <code><a href="#permissionstate">PermissionState</a></code> |
+| Method    | Signature                                |
+| --------- | ---------------------------------------- |
+| **open**  | () =&gt; Promise&lt;void&gt;             |
+| **close** | () =&gt; Promise&lt;void&gt;             |
+| **write** | (data: string) =&gt; Promise&lt;void&gt; |
 
 
 ### Type Aliases
@@ -198,11 +121,6 @@ requestPermissions() => Promise<PermissionStatus>
 
 #### AndroidDriverName
 
-<code>'WEB' | 'FTDI' | 'CP21XX' | 'PROLIFIC' | 'CH34X' | 'CDC_ACM' | 'GDM_MODEM'</code>
-
-
-#### PermissionState
-
-<code>'prompt' | 'prompt-with-rationale' | 'granted' | 'denied'</code>
+<code>'FTDI' | 'CP21XX' | 'PROLIFIC' | 'CH34X' | 'CDC_ACM' | 'GSM_MODEM'</code>
 
 </docgen-api>

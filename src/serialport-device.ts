@@ -1,12 +1,12 @@
 import type {
-  SerialPortDeviceDef,
   SerialPortDeviceEventsDefinition,
+  UsbSerialPort,
 } from './types/serialport-device.types';
 import { SafeEventBus } from './util/safe-event-bus';
 
-export class SerialPortDevice
+export class UsbSerialPortDevice
   extends SafeEventBus<SerialPortDeviceEventsDefinition>
-  implements SerialPortDeviceDef
+  implements UsbSerialPort
 {
   public async open(): Promise<void> {
     // this.publish('')

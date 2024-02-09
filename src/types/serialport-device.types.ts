@@ -1,6 +1,6 @@
 // export type
 
-export interface SerialPortDeviceDef {
+export interface UsbSerialPort {
   open(): Promise<void>;
   close(): Promise<void>;
   write(data: string): Promise<void>;

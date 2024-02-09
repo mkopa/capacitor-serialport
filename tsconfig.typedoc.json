@@ -1,20 +1,17 @@
 {
   "compilerOptions": {
-    "allowUnreachableCode": false,
     "declaration": true,
-    "esModuleInterop": true,
-    "inlineSources": true,
-    "lib": ["dom", "es2017"],
+    "target": "es2017",
     "module": "esnext",
     "moduleResolution": "node",
-    "noFallthroughCasesInSwitch": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
     "outDir": "dist/esm",
-    "pretty": true,
-    "sourceMap": true,
+    "noEmitOnError": true,
+    "esModuleInterop": true,
     "strict": true,
-    "target": "es2017"
+    "skipLibCheck": true
   },
-  "files": ["src/types/index.ts", "src/serialport-manager.ts", "src/serialport-device.ts"]
+  "files": ["src/index.ts", "src/serialport-manager.ts", "src/serialport-device.ts", "src/util/safe-event-bus.ts"],
+  "include": [
+    "./src/**/*"
+  ]
 }
