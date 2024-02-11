@@ -5,7 +5,7 @@ export type Subscribe<EventsDefinition> = <T extends keyof EventsDefinition>(
   handlerFn: (payload: EventsDefinition[T]) => void,
 ) => Unsubscribe;
 export interface Subscribers<EventsDefinition> {
-  subscribe: Subscribe<EventsDefinition>;
+  addEventListener: Subscribe<EventsDefinition>;
 }
 
 export type Publish<
@@ -19,16 +19,16 @@ export type Publish<
     ) => void;
 
 export interface Publishers<EventsDefinition> {
-  publish: Publish<EventsDefinition, keyof EventsDefinition>;
+  dispatchEvent: Publish<EventsDefinition, keyof EventsDefinition>;
 }
 
-export type CreateSafeEventBus<E> = {
+export type EventBusObject<E> = {
   eventBus: EventTarget;
-  subscribe: <T extends keyof E>(
+  addEventListener: <T extends keyof E>(
     eventName: Exclude<T, number | symbol>,
     handlerFn: (payload: E[T]) => void,
   ) => Unsubscribe;
-  publish: <T extends keyof E>(
+  dispatchEvent: <T extends keyof E>(
     eventName: Exclude<T, number | symbol>,
     payload?: E[T],
   ) => void;

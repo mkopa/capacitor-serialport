@@ -26,25 +26,25 @@ export class SerialPortWeb extends WebPlugin implements SerialPortPlugin {
     const devices: GetPortsResult = {
       devices: [
         {
-          portId: 0,
+          portId: '0',
           driverName: 'FTDI',
           productId: getRandomInt(0x0001, 0xffff),
           vendorId: getRandomInt(0x0001, 0xffff),
         },
         {
-          portId: 1,
+          portId: '1',
           driverName: 'PROLIFIC',
           productId: getRandomInt(0x0001, 0xffff),
           vendorId: getRandomInt(0x0001, 0xffff),
         },
         {
-          portId: 3,
+          portId: '3',
           driverName: 'CP21XX',
           productId: getRandomInt(0x0001, 0xffff),
           vendorId: getRandomInt(0x0001, 0xffff),
         },
         {
-          portId: 4,
+          portId: '4',
           driverName: 'CH34X',
           productId: getRandomInt(0x0001, 0xffff),
           vendorId: getRandomInt(0x0001, 0xffff),
@@ -84,9 +84,9 @@ export class SerialPortWeb extends WebPlugin implements SerialPortPlugin {
     throw this.unimplemented('Not implemented on web.');
   }
 
-  // private onDataCallback = this.onData.bind(this);
+  // private onDataCallback = this.data.bind(this);
   //
-  // private onData(event: Event): void {
+  // private data(event: Event): void {
   //   const deviceId = (event.target as BluetoothDevice).id;
   //   const key = `disconnected|${deviceId}`;
   //   this.notifyListeners(key, null);

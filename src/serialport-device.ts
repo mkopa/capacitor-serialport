@@ -1,21 +1,33 @@
+import type { SerialDeviceInfo } from './types/serial-device-info.types';
 import type {
   SerialPortDeviceEventsDefinition,
-  UsbSerialPort,
+  UsbSerialPortDevice,
+  UsbSerialPortDeviceDependencies,
 } from './types/serialport-device.types';
 import { SafeEventBus } from './util/safe-event-bus';
 
-export class UsbSerialPortDevice
+export class UsbSerialPort
   extends SafeEventBus<SerialPortDeviceEventsDefinition>
-  implements UsbSerialPort
+  implements UsbSerialPortDevice
 {
-  public async open(): Promise<void> {
+  constructor(private readonly dependencies: UsbSerialPortDeviceDependencies) {
+    super();
+    this.dependencies = dependencies;
+  }
+
+  public async getDeviceInfo(): Promise<SerialDeviceInfo> {
+    const { deviceInfo } = this.dependencies;
+
+    return deviceInfo;
+  }
+
+  public async open(_portId: string): Promise<void> {
     // this.publish('')
   }
   public async close(): Promise<void> {
-    this.publish('onClose');
+    // this.dispatchEvent('onClose', this.dependencies.deviceInfo.portId);
   }
-
-  public async write(data: string): Promise<void> {
+  public async write(data: Uint8Array | string): Promise<void> {
     console.log(data);
   }
 }

@@ -1,5 +1,5 @@
 import type {
-  CreateSafeEventBus,
+  EventBusObject,
   Subscribers,
   Unsubscribe,
 } from '../types/safe-event-bus.types';
@@ -12,7 +12,7 @@ export abstract class SafeEventBus<EventsDefinition>
   implements Subscribers<EventsDefinition>
 {
   private readonly eventBus = new EventTarget();
-  protected publish<T extends keyof EventsDefinition>(
+  protected dispatchEvent<T extends keyof EventsDefinition>(
     eventName: Exclude<T, number | symbol>,
     payload?: EventsDefinition[T],
   ): void {
@@ -26,7 +26,7 @@ export abstract class SafeEventBus<EventsDefinition>
     return 'detail' in event;
   }
 
-  public subscribe<T extends keyof EventsDefinition>(
+  public addEventListener<T extends keyof EventsDefinition>(
     eventName: Exclude<T, number | symbol>,
     handlerFn: (payload: EventsDefinition[T]) => void,
   ): Unsubscribe {
@@ -45,8 +45,9 @@ export abstract class SafeEventBus<EventsDefinition>
 
 export function createSafeEventBus<EventsDefinition>(
   eventBus = new EventTarget(),
-): CreateSafeEventBus<EventsDefinition> {
-  const publish =
+  // ): EventBusObject<EventsDefinition> {
+): EventBusObject<EventsDefinition> {
+  const dispatchEvent =
     (eventBus: EventTarget) =>
     <T extends keyof EventsDefinition>(
       eventName: Exclude<T, number | symbol>,
@@ -58,7 +59,7 @@ export function createSafeEventBus<EventsDefinition>(
       eventBus.dispatchEvent(event);
     };
 
-  const subscribe =
+  const addEventListener =
     (eventBus: EventTarget) =>
     <T extends keyof EventsDefinition>(
       eventName: Exclude<T, number | symbol>,
@@ -77,8 +78,8 @@ export function createSafeEventBus<EventsDefinition>(
     };
 
   return {
-    eventBus,
-    publish: publish(eventBus),
-    subscribe: subscribe(eventBus),
+    eventBus: eventBus,
+    dispatchEvent: dispatchEvent(eventBus),
+    addEventListener: addEventListener(eventBus),
   };
 }

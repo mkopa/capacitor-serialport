@@ -11,7 +11,7 @@ export interface PermissionStatus {
 // }
 
 export interface OpenPortOptions {
-  portId: number;
+  portId: string;
   baudRate?: number;
 }
 
@@ -29,22 +29,19 @@ export interface GetPortsResult {
 }
 
 export interface OnPortDataResult {
-  portId: number;
+  portId: string;
   data: string;
 }
 
 export interface OnPortCloseResult {
-  portId: number;
+  portId: string;
+  reason: string;
 }
 
-export type Data = DataView | string;
+// export type Data = DataView | string;
 
 export interface ReadResult {
-  /**
-   * android, ios: string
-   * web: DataView
-   */
-  value?: Data;
+  value?: string;
 }
 
 export interface SerialPortPlugin {
